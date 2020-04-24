@@ -1,18 +1,22 @@
 {
   "name": "messages-insight",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Message Insight",
+  "description": "Show insight for your whatsapp messages",
+  "productName": "Messages Insight",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Huy <minhhuy8137@gmail.com>",
   "private": true,
   "scripts": {
+    "build": "quasar build",
+    "start": "node server.js",
+    "heroku-postbuild": "yarn && yarn build",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "express": "^4.17.1",
     "quasar": "^1.0.0"
   },
   "devDependencies": {
