@@ -49,7 +49,10 @@ module.exports = function (/* ctx */) {
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: 'auto',
 
-      components: [],
+      components: [
+        'QFile',
+        'QBtn'
+      ],
       directives: [],
 
       // Quasar plugins
@@ -112,7 +115,7 @@ module.exports = function (/* ctx */) {
       manifest: {
         name: 'Message Insight',
         short_name: 'Message Insight',
-        description: 'A Quasar Framework app',
+        description: 'Gine analytic to your messages thread',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
