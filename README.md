@@ -1,4 +1,4 @@
-# Message Insight (messages-insight)
+# Chat Insight (chat-insight)
 
 A Quasar Framework app
 
