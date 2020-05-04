@@ -1,87 +1,94 @@
 <template>
-  <q-page class="q-pa-lg bg-grey-3">
+  <q-page class="q-pa-lg bg-grad">
     <section id="main_section" class="q-pt-xl">
       <main id="start">
-        <h5 id="upload">Upload your exported txt file</h5>
-        <div class="q-pa-md">
-          <div class="center" style="max-width: 300px">
-            <breeding-rhombus-spinner
-              :animation-duration="1500"
-              :size="60"
-              :color="'#1976d2'"
-              class="center"
-              v-if="isUploading"
-            />
-            <label class="text-reader" v-ripple.early v-if="!isUploading">
-              Upload File
-              <input type="file" @change="AnalyzeTextFromFile" accept=".txt" hidden>
-            </label>
-            <q-item id="clickMeSenpai" to='/result' class="hide"></q-item>
-          </div>
+        <p class="intro">
+          Have you ever wondered what is going on in your whatsapp group chat?, <br>
+          who is the most talkactive? how many messages has been sent? <br>
+          and which date is the most bustling day?...
+        </p>
+        <p class="intro">
+          With just a few click away you will have those informations on your screen
+        </p>
+        <h4 id="upload">Upload your exported txt file</h4>
+        <div class="center" style="max-width: 300px">
+          <breeding-rhombus-spinner
+            :animation-duration="1500"
+            :size="60"
+            :color="'#1976d2'"
+            class="center"
+            v-if="isUploading"
+          />
+          <label class="text-reader" v-ripple.early v-if="!isUploading">
+            Upload File
+            <input type="file" @change="AnalyzeTextFromFile" accept=".txt" hidden>
+          </label>
+          <q-item id="clickMeSenpai" to='/result' class="hide"></q-item>
         </div>
       </main>
     </section>
 
     <section id="main_section">
-      <main id="start">
-        <h5 id="howto">How to</h5>
-        <a href="#" v-scroll-to="'#upload'">Scroll to #element</a>
+      <main id="start" style="text-align: left">
+        <h4 id="howto" style="text-align: center">How to</h4>
+        <ol>
+          <li>
+            Go to WhatsApp app on your phone and select any chat or group.</li>
+          <li>
+            Press the three dotted button in the top right corner and select "More"
+          </li>
+          <li>
+            Choose "Email Chat" and select "Without Media" option.
+          </li>
+          <li>
+            Upload it to Drive or email the exported text file to yourself.
+          </li>
+          <li>
+            Download the file to your computer or phone <a href="#" v-scroll-to="'#upload'">and upload it to this website.</a>
+          </li>
+        </ol>
 
       </main>
     </section>
 
     <section id="main_section">
-      <main id="start">
-        <h5 id="faq">FAQ</h5>
+      <main id="start" style="text-align: left">
+        <h4 id="faq" style="text-align: center">FAQ</h4>
         <div class="row">
           <div class="col-xs-12 col-sm-6">
-            <h4>
+            <h6>
               Do you support other chat service beside Whatsapp?
-            </h4>
+            </h6>
             <p>
               Currently no, but in the future if I have time then yes
             </p>
           </div>
           <div class="col-xs-12 col-sm-6">
-            <h4>
-              Do you support other chat service beside Whatsapp?
-            </h4>
+            <h6>
+              What do you do with my uploaded data?
+            </h6>
             <p>
-              Currently no, but in the future if I have time then yes
-            </p>
-          </div>
-
-          <div class="col-xs-12 col-sm-6">
-            <h4>
-              Do you support other chat service beside Whatsapp?
-            </h4>
-            <p>
-              Currently no, but in the future if I have time then yes
-            </p>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <h4>
-              Do you support other chat service beside Whatsapp?
-            </h4>
-            <p>
-              Currently no, but in the future if I have time then yes
+              This website will analyze your uploaded data <br>
+              and store the numbers and essestial data in your browser <br>
+              in order to construct graphs in the result page
             </p>
           </div>
 
           <div class="col-xs-12 col-sm-6">
-            <h4>
-              Do you support other chat service beside Whatsapp?
-            </h4>
+            <h6>
+              I am really concern about my chat messages!
+            </h6>
             <p>
-              Currently no, but in the future if I have time then yes
+              I'm just a student unlike Google or Facebook, <br>
+              your data is useless to me 🤞
             </p>
           </div>
           <div class="col-xs-12 col-sm-6">
-            <h4>
-              Do you support other chat service beside Whatsapp?
-            </h4>
+            <h6>
+              Are you sure?
+            </h6>
             <p>
-              Currently no, but in the future if I have time then yes
+              Yes, hell yes, chắc vl 🤙
             </p>
           </div>
         </div>
@@ -376,5 +383,19 @@ export default {
 .hide {
   width: 1px;
   height: 1px;
+}
+
+.intro {
+  font-size: 1.1em;
+}
+
+.bg-grad {
+  height: 100%;
+  background-color: rgb(2,0,36);
+  background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+
+h6 {
+  margin: 10px 0;
 }
 </style>

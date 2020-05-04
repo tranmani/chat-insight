@@ -50,7 +50,9 @@ module.exports = function (/* ctx */) {
       all: 'auto',
 
       components: [
-        'QBtn'
+        'QBtn',
+        'QDrawer',
+        'QParallax'
       ],
       directives: [
         'Ripple'
@@ -184,7 +186,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'messages-insight'
+        appId: 'chat-insight'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

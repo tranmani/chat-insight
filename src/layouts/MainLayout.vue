@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <q-btn flat @click="sideBar = !sideBar" round dense icon="menu" />
         <q-toolbar-title>
           Chat Insight
         </q-toolbar-title>
@@ -12,7 +12,7 @@
     </q-header>
 
     <q-drawer
-        v-model="drawer"
+        v-model="sideBar"
         show-if-above
         :width="200"
         :breakpoint="1000"
@@ -51,7 +51,6 @@
           </div>
         </q-img>
       </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -65,7 +64,8 @@ export default {
 
   data () {
     return {
-      drawer: false
+      sideBar: false
     }
   }
 }
+</script>

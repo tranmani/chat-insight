@@ -1,5 +1,5 @@
 <template>
-    <q-page class="q-pa-lg bg-grey-3">
+    <q-page class="q-pa-lg bg-grad">
     <section id="main_section" class="q-pt-xl">
       <main id="start">
         <section style="text-align: center" v-if="hasData">
@@ -53,8 +53,10 @@
               <h4>{{ formatNumber(Math.floor(chatData.totalMessage / chatData.participants.length)) }}</h4>
               <p>Average message per user</p>
             </div>
+            <div class="col-xs-12">
+              <highcharts :options="topMessagesOptions" v-if="this.topMessagesOptions"></highcharts>
+            </div>
           </div>
-          <highcharts :options="topMessagesOptions" v-if="this.topMessagesOptions"></highcharts>
 
           <h3>Emojis</h3>
           <div class="row">
@@ -363,5 +365,10 @@ h3 {
 }
 p {
   padding: 0 0 25px
+}
+.bg-grad {
+  height: 100%;
+  background-color: rgb(2,0,36);
+  background-image: linear-gradient(to top, #209cff 0%, #68e0cf 100%);
 }
 </style>
