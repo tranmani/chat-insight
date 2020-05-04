@@ -1,6 +1,6 @@
 # Chat Insight (chat-insight)
 
-A Quasar Framework app
+Exported .txt file have to be in this date format: 1/30/20, 11:59 AM
 
 ## Install the dependencies
 ```bash
