@@ -3,7 +3,10 @@ import VueRouter from 'vue-router'
 
 import routes from './routes'
 
+import HighchartsVue from 'highcharts-vue'
+
 Vue.use(VueRouter)
+Vue.use(HighchartsVue)
 
 /*
  * If not building with SSR mode, you can

@@ -5,8 +5,15 @@
         <h5>Upload your exported txt file:</h5>
         <div class="q-pa-md">
           <div class="q-pa-md absolute-center q-mt-xl" style="max-width: 300px">
-            <label class="text-reader">
-              Read File
+            <fulfilling-square-spinner
+              :animation-duration="100"
+              :size="60"
+              :color="'#1976d2'"
+              class="absolute-center"
+              v-if="isUploading"
+            />
+            <label class="text-reader" v-ripple.early v-if="!isUploading">
+              Upload File
               <input type="file" @change="AnalyzeTextFromFile" accept=".txt" hidden>
             </label>
           </div>
@@ -18,32 +25,44 @@
 </template>
 
 <script>
+import { LocalStorage } from 'quasar'
+import { FulfillingSquareSpinner } from 'epic-spinners'
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable no-useless-escape */
 export default {
+  components: {
+    FulfillingSquareSpinner
+  },
+  created () {
+    this.isUploading = false
+  },
   data () {
     return {
-      chatData: [
-        {
-          firstChatDate: '',
-          lastChatDate: '',
-          participants: [
-            {
-              name: '',
-              messages: ''
-            }
-          ],
-          totalMessage: '',
-          totalImage: '',
-          totalEmoji: ''
-        }
-      ]
+      chatData: {
+        chatName: '',
+        firstChatDate: '',
+        lastChatDate: '',
+        participants: [],
+        wordOccurrence: [],
+        emojiOccurrence: [],
+        dateOccurrence: [],
+        timeOccurrence: [],
+        totalMessage: '',
+        totalImage: '',
+        totalLink: '',
+        totalEmoji: ''
+      },
+      isUploading: true
     }
   },
   methods: {
     AnalyzeTextFromFile (e) {
+      // this.isUploading = true
+      // setTimeout(function () {
+      //   this.$router.push('/result')
+      // }, 3000)
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = e => {
@@ -52,11 +71,27 @@ export default {
         var totalImage = 0
         var totalLink = 0
         var timeArr = []
+        var chatName
 
         // filter message data line by line from .txt file
         for (var i = 1; i < lines.length - 1; i++) {
+          // get group name
+          if (lines[1].includes(' created group ', 17)) {
+            chatName = lines[1].split('"')[1]
+          }
+
+          // get total hyperlink in the whole chat
+          if (lines[i].match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g)) {
+            totalLink++
+          }
+
+          // get total image in the whole chat
+          if (lines[i].includes('<Media omitted>', 17)) {
+            totalImage++
+          }
+
           // filter out line that is not a proper chat message
-          if (lines[i].match(/([0-9])\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.', 17) && !lines[i].includes(' created group ', 17) && !lines[i].includes(' added ', 17) && !lines[i].includes(' left', 17) && !lines[i].includes(" changed this group's icon", 17) && !lines[i].includes(' changed the subject from ', 17) && !lines[i].includes(' removed ', 17) && !lines[i].includes(" You're now an admin", 17)) {
+          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.', 17) && !lines[i].includes(' created group ', 17) && !lines[i].includes(' added ', 17) && !lines[i].includes(' left', 17) && !lines[i].includes(" changed this group's icon", 17) && !lines[i].includes(' changed the subject from ', 17) && !lines[i].includes(' removed ', 17) && !lines[i].includes(" You're now an admin", 17) && !lines[i].includes(' changed to ', 17) && !lines[i].includes(' changed the group description', 17) && !lines[i].includes(' This message was deleted', 17)) {
             // extract date
             var oringinalDate = lines[i].split(',')
             filteredChatData.push({
@@ -65,26 +100,15 @@ export default {
               sender: lines[i].split('- ')[1].split(': ')[0],
               message: lines[i].split('- ')[1].split(': ')[1]
             })
-            // get total image in the whole chat
-            if (lines[i].split('- ')[1].split(': ')[1].includes('<Media omitted>')) {
-              totalImage++
-            }
             timeArr.push(oringinalDate[1].split(' ')[1].split(':')[0] + ' ' + oringinalDate[1].split(' ')[2])
           }
-
-          // get total link in the whole chat
-          if (lines[i].match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g)) {
-            totalLink++
-          }
         }
-        console.log(totalLink)
-        console.log(totalImage)
 
         // analyze filtered message data
         var firstChatDate = filteredChatData[0].date
         var lastChatDate = filteredChatData[filteredChatData.length - 1].date
         var totalMessage = filteredChatData.length
-        var participants = [] // name and number of mesages
+        var participants = [] // name and number of messages
         var wordOccurrence = [] // word and number of occurrence
         var emojiOccurrence = [] // emoji and number of occurrence
         var dateOccurrence = [] // date and number of occurrence
@@ -101,6 +125,9 @@ export default {
             name: Object.keys(participantsObject)[i],
             messages: Object.values(participantsObject)[i]
           })
+          if (Object.keys(participantsObject).length === 2) {
+            chatName = Object.keys(participantsObject)[0] + ' and ' + Object.keys(participantsObject)[1]
+          }
         }
 
         // extract word by word from message
@@ -131,7 +158,7 @@ export default {
           }
           for (let j = 0; j < emojis.length; j++) {
             // only take emoji
-            if (emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g) && !emojis[j].match(/[’€]/g)) {
+            if (emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g) && !emojis[j].match(/\’\€/g)) {
               emojisArr.push(emojis[j])
             }
           }
@@ -171,7 +198,7 @@ export default {
             occurrence: Object.values(emojiCounts)[i]
           })
         }
-        totalEmoji = emojiOccurrence.length
+        totalEmoji = emojisArr.length
 
         // date occurrence counter
         var dateCounts = {}
@@ -206,11 +233,31 @@ export default {
             occurrence: Object.values(timeCounts)[i]
           })
         }
-
+        
+        // sort array in decending order
         wordOccurrence.sort(compare)
         emojiOccurrence.sort(compare)
         dateOccurrence.sort(compare)
         timeOccurrence.sort(compare)
+        participants.sort(compare2)
+
+        // assign all extracted value and put it to localstorage
+        this.chatData.chatName = chatName
+        this.chatData.firstChatDate = firstChatDate
+        this.chatData.lastChatDate = lastChatDate
+        this.chatData.totalMessage = totalMessage
+        this.chatData.totalWord = totalWord
+        this.chatData.totalEmoji = totalEmoji
+        this.chatData.totalLink = totalLink
+        this.chatData.totalImage = totalImage
+        this.chatData.participants = [...participants]
+        this.chatData.wordOccurrence = [...wordOccurrence]
+        this.chatData.emojiOccurrence = [...emojiOccurrence]
+        this.chatData.dateOccurrence = [...dateOccurrence]
+        this.chatData.timeOccurrence = [...timeOccurrence]
+
+        const chatData = {}
+        LocalStorage.set(chatData, this.chatData)
 
         function count (arr, classifier) {
           classifier = classifier || String
@@ -225,7 +272,12 @@ export default {
           // decending sort
           if (a.occurrence > b.occurrence) return -1
           if (b.occurrence > a.occurrence) return 1
-
+          return 0
+        }
+        function compare2 (a, b) {
+          // decending sort
+          if (a.messages > b.messages) return -1
+          if (b.messages > a.messages) return 1
           return 0
         }
 
@@ -248,35 +300,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin: 0 auto;
-  width: 70%;
-}
 
-.text-reader {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  font-weight: bold;
-
-  /* Fancy button looking */
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 16px 25px;
-  cursor: pointer;
-}
-
-#start {
-  text-align: center;
-  width: 90%;
-  box-sizing: border-box;
-  max-width: 1200px;
-  margin: 0 auto 80px;
-  padding: 40px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  min-height: 300px;
-  position: relative;
-}
 </style>

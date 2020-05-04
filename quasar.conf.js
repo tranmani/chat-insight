@@ -50,13 +50,16 @@ module.exports = function (/* ctx */) {
       all: 'auto',
 
       components: [
-        'QFile',
         'QBtn'
       ],
-      directives: [],
+      directives: [
+        'Ripple'
+      ],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'LocalStorage'
+      ]
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
