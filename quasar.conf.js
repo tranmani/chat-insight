@@ -116,9 +116,9 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Message Insight',
-        short_name: 'Message Insight',
-        description: 'Gine analytic to your messages thread',
+        name: 'Chat Insight',
+        short_name: 'Chat Insight',
+        description: 'Give analytic to your chat thread',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

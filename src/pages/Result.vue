@@ -46,7 +46,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4">
               <h4>{{ chatData.participants[0].name }}</h4>
               <p>
-                Is chatty nature <br> with <strong>{{ chatData.participants[0].messages }}</strong> messages
+                Is a chatty nature <br> with <strong>{{ chatData.participants[0].messages }}</strong> messages
               </p>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4">
@@ -70,6 +70,24 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6">
               <highcharts :options="topEmojisOptions" v-if="this.topEmojisOptions"></highcharts>
+            </div>
+          </div>
+
+          <h3>Dates and Time</h3>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <h4>{{ chatData.timeOccurrence[0].time }}</h4>
+              <p>Is the busiest time <br> with <strong>{{ chatData.timeOccurrence[0].occurrence }}</strong> messages</p>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <highcharts :options="topTimeOptions" v-if="this.topTimeOptions"></highcharts>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+              <h4>{{ chatData.dateOccurrence[0].date }}</h4>
+              <p>Is the busiest day <br> with <strong>{{ chatData.dateOccurrence[0].occurrence }}</strong> messages</p>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8">
+              <highcharts :options="topDatesOptions" v-if="this.topDatesOptions"></highcharts>
             </div>
           </div>
 
@@ -105,6 +123,12 @@ Highcharts.setOptions({
   },
   credits: {
     enabled: false
+  },
+  yAxis: {
+    min: 0,
+    labels: {
+      overflow: 'justify'
+    }
   }
 })
 export default {
@@ -114,20 +138,19 @@ export default {
       this.$router.push('/')
     } else {
       this.chatData = LocalStorage.getItem(chatData)
-      console.log(this.chatData)
       this.putData()
       this.hasData = true
-      console.log(this.topEmojisOptions)
     }
   },
   data () {   
     return {
       hasData: false,
-      data: 'boiiiiiiiiiiiii',
       chatData: {},
       topMessagesOptions: {},
       topEmojisOptions: {},
-      topWordsOptions: {}
+      topWordsOptions: {},
+      topDatesOptions: {},
+      topTimeOptions: {}
     }
   },
   methods: {
@@ -151,18 +174,15 @@ export default {
           categories: users
         },
         yAxis: {
-          min: 0,
           title: {
             text: 'Number of messages'
-          },
-          labels: {
-            overflow: 'justify'
           }
         },
         series: [
           {
             name: 'Mesages',
-            data: messages
+            data: messages,
+            color: '#1E90FF'
           }
         ]
       }
@@ -194,10 +214,16 @@ export default {
 
       // for words
       var words = []
-      var occurrences = []
-      for (let i = 0; i < 20; i++) {
+      var wordsOccurrences = []
+      var loopTimes1
+      if (this.chatData.wordOccurrence.length < 20) {
+        loopTimes1 = this.chatData.wordOccurrence.length
+      } else {
+        loopTimes1 = 20
+      }
+      for (let i = 0; i < loopTimes1; i++) {
         words.push(this.chatData.wordOccurrence[i].word)
-        occurrences.push(this.chatData.wordOccurrence[i].occurrence)
+        wordsOccurrences.push(this.chatData.wordOccurrence[i].occurrence)
       }
       
       this.topWordsOptions = {
@@ -211,18 +237,91 @@ export default {
           categories: words
         },
         yAxis: {
-          min: 0,
           title: {
             text: 'Number of word occurence'
-          },
-          labels: {
-            overflow: 'justify'
           }
         },
         series: [
           {
             name: 'Occurence',
-            data: occurrences
+            data: wordsOccurrences,
+            color: '#FF69B4'
+          }
+        ]
+      }
+
+      // for Time
+      var times = []
+      var timesOccurrences = []
+      var loopTimes2
+      if (this.chatData.timeOccurrence.length < 20) {
+        loopTimes2 = this.chatData.timeOccurrence.length
+      } else {
+        loopTimes2 = 20
+      }
+      for (let i = 0; i < loopTimes2; i++) {
+        times.push(this.chatData.timeOccurrence[i].time)
+        timesOccurrences.push(this.chatData.timeOccurrence[i].occurrence)
+      }
+      
+      this.topTimeOptions = {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Message by hours'
+        },
+        xAxis: {
+          categories: times
+        },
+        yAxis: {
+          title: {
+            text: 'Number of occurence'
+          }
+        },
+        series: [
+          {
+            name: 'Mesages',
+            data: timesOccurrences,
+            color: '#8A2BE2'
+          }
+        ]
+      }
+
+      // for Date
+      var dates = []
+      var datesOccurrences = []
+      var loopTimes3
+      if (this.chatData.dateOccurrence.length < 20) {
+        loopTimes3 = this.chatData.dateOccurrence.length
+      } else {
+        loopTimes3 = 20
+      }
+      for (let i = 0; i < loopTimes3; i++) {
+        dates.push(this.chatData.dateOccurrence[i].date)
+        datesOccurrences.push(this.chatData.dateOccurrence[i].occurrence)
+      }
+      
+      this.topDatesOptions = {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Busiest day'
+        },
+        xAxis: {
+          categories: dates
+        },
+        yAxis: {
+          title: {
+            text: 'Number of messages'
+          }
+        },
+        series: [
+          {
+            name: 'Mesages',
+            data: datesOccurrences,
+            color: '#DC143C'
           }
         ]
       }
@@ -256,5 +355,8 @@ h3 {
 .row {
   padding: 0 0 30px;
   align-items: center;
+}
+p {
+  padding: 0 0 25px
 }
 </style>

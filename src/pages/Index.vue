@@ -2,23 +2,40 @@
   <q-page class="q-pa-lg bg-grey-3">
     <section id="main_section" class="q-pt-xl">
       <main id="start">
-        <h5>Upload your exported txt file:</h5>
+        <h5 id="upload">Upload your exported txt file:</h5>
         <div class="q-pa-md">
-          <div class="q-pa-md absolute-center q-mt-xl" style="max-width: 300px">
-            <fulfilling-square-spinner
-              :animation-duration="100"
+          <div class="center" style="max-width: 300px">
+            <breeding-rhombus-spinner
+              :animation-duration="1500"
               :size="60"
               :color="'#1976d2'"
-              class="absolute-center"
+              class="center"
               v-if="isUploading"
             />
             <label class="text-reader" v-ripple.early v-if="!isUploading">
               Upload File
               <input type="file" @change="AnalyzeTextFromFile" accept=".txt" hidden>
             </label>
+            <q-item id="clickMeSenpai" to='/result' class="hide"></q-item>
           </div>
         </div>
-        <p v-if="chatData.message">cac</p>
+      </main>
+    </section>
+
+    <section id="main_section">
+      <main id="start">
+        <h5 id="howto">How to</h5>
+        <a href="#" v-scroll-to="'#upload'">Scroll to #element</a>
+
+      </main>
+    </section>
+
+    <section id="main_section">
+      <main id="start">
+        <h5 id="faq">FAQ</h5>
+        <div class="row">
+          <div class="col"></div>
+        </div>
       </main>
     </section>
   </q-page>
@@ -26,14 +43,14 @@
 
 <script>
 import { LocalStorage } from 'quasar'
-import { FulfillingSquareSpinner } from 'epic-spinners'
+import { BreedingRhombusSpinner } from 'epic-spinners'
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable no-useless-escape */
 export default {
   components: {
-    FulfillingSquareSpinner
+    BreedingRhombusSpinner
   },
   created () {
     this.isUploading = false
@@ -54,15 +71,17 @@ export default {
         totalLink: '',
         totalEmoji: ''
       },
-      isUploading: true
+      isUploading: false,
+      isDone: false
     }
   },
   methods: {
     AnalyzeTextFromFile (e) {
-      // this.isUploading = true
-      // setTimeout(function () {
-      //   this.$router.push('/result')
-      // }, 3000)
+      this.isUploading = true
+      setTimeout(function () {
+        // window.location.href = '/#/result'
+        document.getElementById('clickMeSenpai').click()
+      }, 1800)
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = e => {
@@ -158,8 +177,10 @@ export default {
           }
           for (let j = 0; j < emojis.length; j++) {
             // only take emoji
-            if (emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g) && !emojis[j].match(/\’\€/g)) {
-              emojisArr.push(emojis[j])
+            if (!emojis[j].match(/’/g)) {
+              if (emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g)) {
+                emojisArr.push(emojis[j])
+              }
             }
           }
         }
@@ -294,11 +315,17 @@ export default {
         }
       }
       reader.readAsText(file)
+    },
+    redirect (page) {
+      window.location.href = page
     }
   }
 }
 </script>
 
 <style scoped>
-
+.hide {
+  width: 1px;
+  height: 1px;
+}
 </style>

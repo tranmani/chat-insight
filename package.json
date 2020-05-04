@@ -1,8 +1,8 @@
 {
-  "name": "messages-insight",
+  "name": "chat-insight",
   "version": "0.0.1",
   "description": "Show insight for your whatsapp messages",
-  "productName": "Messages Insight",
+  "productName": "Chat Insight",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Huy <minhhuy8137@gmail.com>",
@@ -22,7 +22,9 @@
     "highcharts-vue": "^1.3.5",
     "moment": "^2.25.1",
     "quasar": "^1.0.0",
-    "serve-static": "^1.14.1"
+    "serve-static": "^1.14.1",
+    "vue-analytics": "^5.22.1",
+    "vue-scrollto": "^2.18.1"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",

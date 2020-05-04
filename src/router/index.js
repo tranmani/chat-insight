@@ -4,7 +4,29 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 
 import HighchartsVue from 'highcharts-vue'
+import VueAnalytics from 'vue-analytics'
 
+Vue.use(VueAnalytics, {
+  id: 'UA-36117294-7',
+  routes
+})
+
+var VueScrollTo = require('vue-scrollto')
+Vue.use(VueScrollTo, {
+  container: 'body',
+  duration: 500,
+  easing: 'ease',
+  offset: 0,
+  force: true,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true
+})
+
+Vue.use(VueScrollTo)
 Vue.use(VueRouter)
 Vue.use(HighchartsVue)
 
