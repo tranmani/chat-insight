@@ -178,6 +178,11 @@ export default {
             text: 'Number of messages'
           }
         },
+        plotOptions: {
+          series: {
+            colorByPoint: true
+          }
+        },
         series: [
           {
             name: 'Mesages',

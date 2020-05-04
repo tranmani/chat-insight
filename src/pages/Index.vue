@@ -2,7 +2,7 @@
   <q-page class="q-pa-lg bg-grey-3">
     <section id="main_section" class="q-pt-xl">
       <main id="start">
-        <h5 id="upload">Upload your exported txt file:</h5>
+        <h5 id="upload">Upload your exported txt file</h5>
         <div class="q-pa-md">
           <div class="center" style="max-width: 300px">
             <breeding-rhombus-spinner
@@ -34,7 +34,56 @@
       <main id="start">
         <h5 id="faq">FAQ</h5>
         <div class="row">
-          <div class="col"></div>
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
+
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
+
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h4>
+              Do you support other chat service beside Whatsapp?
+            </h4>
+            <p>
+              Currently no, but in the future if I have time then yes
+            </p>
+          </div>
         </div>
       </main>
     </section>
