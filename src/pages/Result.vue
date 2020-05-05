@@ -198,7 +198,13 @@ export default {
 
       // for emojis
       var emojis = []
-      for (let i = 0; i < 10; i++) {
+      var loopTimes
+      if (this.chatData.emojiOccurrence.length < 20) {
+        loopTimes = this.chatData.emojiOccurrence.length
+      } else {
+        loopTimes = 10
+      }
+      for (let i = 0; i < loopTimes; i++) {
         emojis.push([this.chatData.emojiOccurrence[i].emoji, this.chatData.emojiOccurrence[i].occurrence])
       }
 

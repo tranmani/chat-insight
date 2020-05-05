@@ -180,7 +180,7 @@ export default {
             
             // parse date and time
             var oringinalDate = lines[i].split(',')
-            var oringinalTime = oringinalDate[1].split(' ')[1] + ' ' + oringinalDate[1].split(' ')[2]
+            var oringinalTime = oringinalDate[1].split(' ')[1]
             var originalDateTime = oringinalDate[0] + ' ' + oringinalTime
 
             var parsedDateTime = moment(originalDateTime).format('M/D/YY - h:mm A').split(' - ')
@@ -195,6 +195,7 @@ export default {
           }
         }
         if (isSupported) {
+          console.log(filteredChatData)
           // analyze filtered message data
           var firstChatDate = filteredChatData[0].date
           var lastChatDate = filteredChatData[filteredChatData.length - 1].date
