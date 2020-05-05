@@ -9,40 +9,40 @@
 
           <h3>General</h3>
           <div class="row vertical-middle">
-            <div class="col-xs-12 col-sm-6">
-              <h4>{{ chatData.firstChatDate }}</h4>
-              <p>First chat</p>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-              <h4>{{ chatData.lastChatDate }}</h4>
-              <p>Last chat</p>
-            </div>
+            <ResultItem
+            classVal='col-xs-12 col-sm-6'
+            :h4Val="chatData.firstChatDate"
+            pVal="First chat"/>
+            <ResultItem
+            classVal='col-xs-12 col-sm-6'
+            :h4Val="chatData.lastChatDate"
+            pVal="Last chat"/>
           </div>
           <div class="row">
-            <div class="col-sm-6 col-lg-3 col-xs-12">
-              <h4>{{ chatData.totalMessage }}</h4>
-              <p>Messages</p>
-            </div>
-            <div class="col-sm-6 col-lg-3 col-xs-12">
-              <h4>{{ chatData.totalImage }}</h4>
-              <p>Pictures</p>
-            </div>
-            <div class="col-sm-6 col-lg-3 col-xs-12">
-              <h4>{{ chatData.totalEmoji }}</h4>
-              <p>Emojis</p>
-            </div>
-            <div class="col-sm-6 col-lg-3 col-xs-12">
-              <h4>{{ chatData.totalLink }}</h4>
-              <p>Links</p>
-            </div>
+            <ResultItem
+            classVal='col-sm-6 col-lg-3 col-xs-12'
+            :h4Val="chatData.totalMessage"
+            pVal="Messages"/>
+            <ResultItem
+            classVal='col-sm-6 col-lg-3 col-xs-12'
+            :h4Val="chatData.totalImage"
+            pVal="Pictures"/>
+            <ResultItem
+            classVal='col-sm-6 col-lg-3 col-xs-12'
+            :h4Val="chatData.totalEmoji"
+            pVal="Emojis"/>
+            <ResultItem
+            classVal='col-sm-6 col-lg-3 col-xs-12'
+            :h4Val="chatData.totalLink"
+            pVal="Links"/>
           </div>
 
           <h3>User</h3>
           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4">
-              <h4>{{ chatData.participants.length }}</h4>
-              <p>Number of users</p>
-            </div>
+            <ResultItem
+            classVal='col-xs-12 col-sm-6 col-md-4'
+            :h4Val="chatData.participants.length"
+            pVal="Number of users"/>
             <div class="col-xs-12 col-sm-6 col-md-4">
               <h4>{{ chatData.participants[0].name }}</h4>
               <p>
@@ -64,12 +64,10 @@
               <h4>{{ chatData.emojiOccurrence[0].emoji }}</h4>
               <p>Most used Emoji <br> used <strong>{{ chatData.emojiOccurrence[0].occurrence }}</strong> times</p>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-              <h4>{{ chatData.emojiOccurrence.length }}</h4>
-              <p>
-                Difference emoji used
-              </p>
-            </div>
+            <ResultItem
+            classVal='col-xs-12 col-sm-6 col-md-3'
+            :h4Val="chatData.emojiOccurrence.length"
+            pVal="Difference emoji used"/>
             <div class="col-xs-12 col-sm-12 col-md-6">
               <highcharts :options="topEmojisOptions" v-if="this.topEmojisOptions"></highcharts>
             </div>
@@ -118,6 +116,7 @@ import { LocalStorage } from 'quasar'
 /* eslint-disable array-bracket-spacing */
 /* eslint-disable quotes */
 import Highcharts from 'highcharts'
+import ResultItem from 'components/ResultItem.vue'
 
 Highcharts.setOptions({
   legend: {
@@ -136,13 +135,16 @@ Highcharts.setOptions({
 export default {
   created () {
     const chatData = {}
-    if (LocalStorage.isEmpty()) {
+    if (!LocalStorage.getItem(chatData)) {
       this.$router.push('/')
     } else {
       this.chatData = LocalStorage.getItem(chatData)
       this.putData()
       this.hasData = true
     }
+  },
+  components: {
+    ResultItem
   },
   data () {   
     return {
@@ -160,9 +162,9 @@ export default {
       // for Messages
       var users = []
       var messages = []
-      for (let i = 0; i < this.chatData.participants.length; i++) {
-        users.push(this.chatData.participants[i].name)
-        messages.push(this.chatData.participants[i].messages)
+      for (const key of this.chatData.participants) {
+        users.push(key.name)
+        messages.push(key.messages)
       }
       
       this.topMessagesOptions = {
@@ -276,7 +278,7 @@ export default {
           type: 'column'
         },
         title: {
-          text: 'Message by hours'
+          text: 'Busiest hour'
         },
         xAxis: {
           categories: times

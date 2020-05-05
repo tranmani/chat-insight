@@ -51,8 +51,7 @@ module.exports = function (/* ctx */) {
 
       components: [
         'QBtn',
-        'QDrawer',
-        'QParallax'
+        'QDrawer'
       ],
       directives: [
         'Ripple'
@@ -60,7 +59,8 @@ module.exports = function (/* ctx */) {
 
       // Quasar plugins
       plugins: [
-        'LocalStorage'
+        'LocalStorage',
+        'Dialog'
       ]
     },
 
