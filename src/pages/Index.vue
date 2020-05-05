@@ -151,7 +151,6 @@ export default {
         var totalLink = 0
         var timeArr = []
         var chatName
-        var dateTest = []
         // filter message data line by line from .txt file
         for (var i = 1; i < lines.length - 1; i++) {
           // get group name
