@@ -173,6 +173,7 @@ export default {
             // determine if exported .txt file is in right format or not
             if (!moment(lines[i].split(',')[0]).isValid()) {
               this.alert()
+              this.isUploading = false
               isSupported = false
               break
             }
