@@ -191,11 +191,10 @@ export default {
               sender: lines[i].split('- ')[1].split(': ')[0],
               message: lines[i].split('- ')[1].split(': ')[1]
             })
-            timeArr.push(parsedDateTime[1])
+            timeArr.push(parsedDateTime[1].split(':')[0] + ' ' + parsedDateTime[1].split(' ')[1])
           }
         }
         if (isSupported) {
-          console.log(filteredChatData)
           // analyze filtered message data
           var firstChatDate = filteredChatData[0].date
           var lastChatDate = filteredChatData[filteredChatData.length - 1].date
