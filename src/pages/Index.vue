@@ -164,14 +164,17 @@ export default {
           }
 
           // get total image in the whole chat
-          if (lines[i].includes('<Media omitted>', 17)) {
+          if (lines[i].includes('<Media omitted>', 17) || lines[i].includes('image omitted', 17)) {
             totalImage++
           }
 
           // filter out line that is not a proper chat message
-          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.', 17) && !lines[i].includes(' created group ', 17) && !lines[i].includes(' added ', 17) && !lines[i].includes(' left', 17) && !lines[i].includes(" changed this group's icon", 17) && !lines[i].includes(' changed the subject from ', 17) && !lines[i].includes(' removed ', 17) && !lines[i].includes(" You're now an admin", 17) && !lines[i].includes(' changed to ', 17) && !lines[i].includes(' changed the group description', 17) && !lines[i].includes(' This message was deleted', 17)) {
+          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.', 17) && !lines[i].includes('created group', 17) && !lines[i].includes('created this group', 17) && !lines[i].includes(' added ', 17) && !lines[i].includes(' left', 17) && !lines[i].includes(" changed this group's icon", 17) && !lines[i].includes('changed the subject from', 17) && !lines[i].includes(' removed ', 17) && !lines[i].includes("You're now an admin", 17) && !lines[i].includes(' changed to ', 17) && !lines[i].includes('changed the group description', 17) && !lines[i].includes('This message was deleted', 17) && !lines[i].includes('Contact card omitted', 17) && !lines[i].includes('‎sticker omitted', 17) && !lines[i].includes('‎GIF omitted', 17) && !lines[i].includes('‎image omitted') && !lines[i].includes('video omitted')) {
+            const regex = /\]|\[/g
+            var filteredLine = lines[i].replace(regex, '')
+
             // determine if exported .txt file is in right format or not
-            if (!moment(lines[i].split(',')[0]).isValid()) {
+            if (!moment(filteredLine.split(',')[0]).isValid()) {
               this.alert()
               this.isUploading = false
               isSupported = false
@@ -179,17 +182,33 @@ export default {
             }
             
             // parse date and time
-            var oringinalDate = lines[i].split(',')
-            var oringinalTime = oringinalDate[1].split(' ')[1]
+            var oringinalDate = filteredLine.split(',')
+            var oringinalTime
+            
+            if (oringinalDate[1].split(' ')[2].includes('AM') || oringinalDate[1].split(' ')[2].includes('PM')) {
+              oringinalTime = oringinalDate[1].split(' ')[1] + ' ' + oringinalDate[1].split(' ')[2]
+            } else {
+              oringinalTime = oringinalDate[1].split(' ')[1]
+            }
             var originalDateTime = oringinalDate[0] + ' ' + oringinalTime
 
             var parsedDateTime = moment(originalDateTime).format('M/D/YY - h:mm A').split(' - ')
+            filteredLine = filteredLine.replace(oringinalDate[0], parsedDateTime[0])
+            filteredLine = filteredLine.replace(oringinalTime, parsedDateTime[1])
+            
+            if (!filteredLine.split(parsedDateTime[1])[1].includes(' - ')) {
+              filteredLine = filteredLine.replace(parsedDateTime[1], parsedDateTime[1] + ' -')
+            }
+
+            // eslint-disable-next-line no-control-regex
+            const regex2 = /(\u000D|\u200e)|’/g
+            filteredLine = filteredLine.replace(regex2, '')
 
             filteredChatData.push({
               date: parsedDateTime[0],
               time: parsedDateTime[1],
-              sender: lines[i].split('- ')[1].split(': ')[0],
-              message: lines[i].split('- ')[1].split(': ')[1]
+              sender: filteredLine.split(' - ')[1].split(': ')[0],
+              message: filteredLine.split(' - ')[1].split(': ')[1]
             })
             timeArr.push(parsedDateTime[1].split(':')[0] + ' ' + parsedDateTime[1].split(' ')[1])
           }
@@ -229,6 +248,8 @@ export default {
             var words = []
             var emojis = []
             dateArr.push(filteredChatData[i].date)
+            // console.log(filteredChatData[i].message.split(' '))
+            if (!filteredChatData[i].message || !filteredChatData[i].sender || !filteredChatData[i].date || !filteredChatData[i].time) i++
             for (let j = 0; j < filteredChatData[i].message.split(' ').length; j++) {
               // filter out media file
               if (!filteredChatData[i].message.includes('<Media omitted>')) {
