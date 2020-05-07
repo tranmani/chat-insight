@@ -138,10 +138,7 @@ export default {
       LocalStorage.remove(chatData)
       var isSupported = true
       this.isUploading = true
-      setTimeout(function () {
-        // window.location.href = '/#/result'
-        document.getElementById('clickMeSenpai').click()
-      }, 1800)
+      
       const file = e.target.files[0]
       const reader = new FileReader()
       reader.onload = e => {
@@ -151,6 +148,10 @@ export default {
         var totalLink = 0
         var timeArr = []
         var chatName
+        setTimeout(function () {
+          document.getElementById('clickMeSenpai').click()
+        }, 1700)
+        
         // filter message data line by line from .txt file
         for (var i = 1; i < lines.length - 1; i++) {
           // get group name
@@ -169,7 +170,7 @@ export default {
           }
 
           // filter out line that is not a proper chat message
-          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.', 17) && !lines[i].includes('created group', 17) && !lines[i].includes('created this group', 17) && !lines[i].includes(' added ', 17) && !lines[i].includes(' left', 17) && !lines[i].includes(" changed this group's icon", 17) && !lines[i].includes('changed the subject from', 17) && !lines[i].includes(' removed ', 17) && !lines[i].includes("You're now an admin", 17) && !lines[i].includes(' changed to ', 17) && !lines[i].includes('changed the group description', 17) && !lines[i].includes('This message was deleted', 17) && !lines[i].includes('Contact card omitted', 17) && !lines[i].includes('‎sticker omitted', 17) && !lines[i].includes('‎GIF omitted', 17) && !lines[i].includes('‎image omitted') && !lines[i].includes('video omitted')) {
+          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.') && !lines[i].includes('created group') && !lines[i].includes('created this group', 17) && !lines[i].includes(' added ') && !lines[i].includes(' left') && !lines[i].includes(" changed this group's icon") && !lines[i].includes('changed the subject from') && !lines[i].includes(' removed ') && !lines[i].includes("You're now an admin") && !lines[i].includes(' changed to ') && !lines[i].includes('changed the group description') && !lines[i].includes('This message was deleted') && !lines[i].includes('Contact card omitted') && !lines[i].includes('‎sticker omitted') && !lines[i].includes('‎GIF omitted') && !lines[i].includes('‎image omitted') && !lines[i].includes('video omitted') && !lines[i].includes('changed their phone number to a new number.')) {
             const regex = /\]|\[/g
             var filteredLine = lines[i].replace(regex, '')
 

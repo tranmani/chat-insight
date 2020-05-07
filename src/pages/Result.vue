@@ -21,19 +21,19 @@
           <div class="row">
             <ResultItem
             classVal='col-sm-6 col-lg-3 col-xs-12'
-            :h4Val="chatData.totalMessage"
+            :h4Val="formatNumber(chatData.totalMessage)"
             pVal="Messages"/>
             <ResultItem
             classVal='col-sm-6 col-lg-3 col-xs-12'
-            :h4Val="chatData.totalImage"
+            :h4Val="formatNumber(chatData.totalImage)"
             pVal="Pictures"/>
             <ResultItem
             classVal='col-sm-6 col-lg-3 col-xs-12'
-            :h4Val="chatData.totalEmoji"
+            :h4Val="formatNumber(chatData.totalEmoji)"
             pVal="Emojis"/>
             <ResultItem
             classVal='col-sm-6 col-lg-3 col-xs-12'
-            :h4Val="chatData.totalLink"
+            :h4Val="formatNumber(chatData.totalLink)"
             pVal="Links"/>
           </div>
 
@@ -46,7 +46,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4">
               <h4>{{ chatData.participants[0].name }}</h4>
               <p>
-                Is a chatty nature <br> with <strong>{{ chatData.participants[0].messages }}</strong> messages
+                Is a chatty nature <br> with <strong>{{ formatNumber(chatData.participants[0].messages) }}</strong> messages
               </p>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-4">
@@ -94,7 +94,7 @@
           <h3>Words</h3>
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-4">
-              <h4>{{ chatData.wordOccurrence.length }}</h4>
+              <h4>{{ formatNumber(chatData.wordOccurrence.length) }}</h4>
               <p>Number of words used <br> (emojis and numbers are not counted)</p>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-8">
@@ -133,7 +133,7 @@ Highcharts.setOptions({
   }
 })
 export default {
-  created () {
+  mounted () {
     const chatData = {}
     if (!LocalStorage.getItem(chatData)) {
       this.$router.push('/')
