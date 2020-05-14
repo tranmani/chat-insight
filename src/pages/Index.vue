@@ -30,30 +30,56 @@
 
     <section id="main_section">
       <main id="start" style="text-align: left">
-        <h4 id="howto" style="text-align: center">How to</h4>
-        <ol>
-          <li>
-            Go to WhatsApp app on your phone and select any chat or group.</li>
-          <li>
-            Press the three dotted button in the top right corner and select "More"
-          </li>
-          <li>
-            Choose "Email Chat" and select "Without Media" option.
-          </li>
-          <li>
-            Upload it to Drive or email the exported text file to yourself.
-          </li>
-          <li>
-            Download the file to your computer or phone <a href="#" v-scroll-to="'#upload'">and upload it to this website.</a>
-          </li>
-        </ol>
+        <h4 id="howto" class="title">How to</h4>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <h6 class="title">Android</h6>
+            <ol>
+              <li>
+                Go to WhatsApp app on your phone and select any chat or group.</li>
+              <li>
+                Press the three dotted button in the top right corner and select "More"
+              </li>
+              <li>
+                Choose "Email Chat" and select "Without Media" option.
+              </li>
+              <li>
+                Upload it to Drive or email the exported text file to yourself.
+              </li>
+              <li>
+                Download the file to your computer or phone <a href="#" v-scroll-to="'#upload'">and upload it to this website.</a>
+              </li>
+            </ol>
+          </div>
 
+          <div class="col-xs-12 col-sm-6">
+            <h6 class="title">iOS</h6>
+            <ol>
+              <li>
+                Go to WhatsApp app on your phone and select any chat or group.</li>
+              <li>
+                Click on the name of the chat (top middle, next to the call button)
+              </li><li>
+                Scroll way down and select 'Export Chat'
+              </li>
+              <li>
+                Choose "Without Media" and select Email option.
+              </li>
+              <li>
+                Upload it to Drive or email the exported text file to yourself.
+              </li>
+              <li>
+                Download the file to your computer or phone <a href="#" v-scroll-to="'#upload'">and upload it to this website.</a>
+              </li>
+            </ol>
+          </div>
+        </div>
       </main>
     </section>
 
     <section id="main_section">
       <main id="start" style="text-align: left">
-        <h4 id="faq" style="text-align: center">FAQ</h4>
+        <h4 id="faq" class="title">FAQ</h4>
         <div class="row">
           <div class="col-xs-12 col-sm-6">
             <h6>
@@ -101,10 +127,12 @@
 import { LocalStorage } from 'quasar'
 import { BreedingRhombusSpinner } from 'epic-spinners'
 import moment from 'moment'
+import S from 'string'
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable no-useless-escape */
+/* eslint-disable no-control-regex */
 export default {
   components: {
     BreedingRhombusSpinner
@@ -201,7 +229,6 @@ export default {
               filteredLine = filteredLine.replace(parsedDateTime[1], parsedDateTime[1] + ' -')
             }
 
-            // eslint-disable-next-line no-control-regex
             const regex2 = /(\u000D|\u200e)|’/g
             filteredLine = filteredLine.replace(regex2, '')
 
@@ -209,7 +236,7 @@ export default {
               date: parsedDateTime[0],
               time: parsedDateTime[1],
               sender: filteredLine.split(' - ')[1].split(': ')[0],
-              message: filteredLine.split(' - ')[1].split(': ')[1]
+              message: S(filteredLine.split(' - ')[1].split(': ')[1]).humanize()
             })
             timeArr.push(parsedDateTime[1].split(':')[0] + ' ' + parsedDateTime[1].split(' ')[1])
           }
@@ -250,7 +277,7 @@ export default {
             var emojis = []
             dateArr.push(filteredChatData[i].date)
             // console.log(filteredChatData[i].message.split(' '))
-            if (!filteredChatData[i].message || !filteredChatData[i].sender || !filteredChatData[i].date || !filteredChatData[i].time) i++
+            if (!filteredChatData[i].message || !filteredChatData[i].sender || !filteredChatData[i].date || !filteredChatData[i].time) continue
             for (let j = 0; j < filteredChatData[i].message.split(' ').length; j++) {
               // filter out media file
               if (!filteredChatData[i].message.includes('<Media omitted>')) {
@@ -271,10 +298,8 @@ export default {
             }
             for (let j = 0; j < emojis.length; j++) {
               // only take emoji
-              if (!emojis[j].match(/’/g)) {
-                if (emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g)) {
-                  emojisArr.push(emojis[j])
-                }
+              if (!emojis[j].match(/(\’|\$|\€|\♀|\♂|\+|\•)/g) && emojis[j].match(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g)) {
+                emojisArr.push(emojis[j])
               }
             }
           }
@@ -417,7 +442,7 @@ export default {
     alert () {
       this.$q.dialog({
         title: 'Not supported format',
-        message: 'The Date and Time in your exported .txt file should be in this format: 12/30/20, 11:59 AM'
+        message: 'The Date and Time in your exported .txt file should be in this format: 12/30/20, 11:59 AM. Please send an email to minhhuy8137@gmail.com with the first 10 lines if you want me to support this format'
       })
     }
   }
@@ -442,5 +467,13 @@ export default {
 
 h6 {
   margin: 10px 0;
+}
+
+h4 {
+  margin-top: 20px;
+}
+
+.title {
+  text-align: center;
 }
 </style>

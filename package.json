@@ -23,6 +23,7 @@
     "moment": "^2.25.3",
     "quasar": "^1.0.0",
     "serve-static": "^1.14.1",
+    "string": "^3.3.3",
     "vue-scrollto": "^2.18.1"
   },
   "devDependencies": {

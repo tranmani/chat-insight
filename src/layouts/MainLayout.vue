@@ -17,7 +17,7 @@
         :width="200"
         :breakpoint="1000"
       >
-        <q-scroll-area style="height: calc(100% - 190px); margin-top: 190px; border-right: 1px solid #ddd">
+        <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
           <q-list padding>
             <q-item exact v-ripple.early to="/">
               <q-item-section avatar>
@@ -41,12 +41,11 @@
           </q-list>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 190px">
+        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
               <img src="https://i.imgur.com/BQ4PiAc.jpg">
             </q-avatar>
-            <div class="text-weight-bold">Huy Tran</div>
             <div>A side project by: <a href="https://fb.com/tranmani251" target="_blank" class="link">@tranmani</a></div>
           </div>
         </q-img>
