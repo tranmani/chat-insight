@@ -3,7 +3,7 @@
     <section id="main_section" class="q-pt-xl">
       <main id="start">
         <p class="intro">
-          Have you ever wondered what is going on in your whatsapp group chat?, <br>
+          Have you ever wondered what is going on in your whatsapp group chat? <br>
           who is the most talkactive? how many messages has been sent? <br>
           and which date is the most bustling day?...
         </p>
