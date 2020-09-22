@@ -139,6 +139,8 @@ export default {
   },
   created () {
     this.isUploading = false
+    this.connect()
+    // this.sendMessage()
   },
   data () {
     return {
@@ -157,7 +159,10 @@ export default {
         totalEmoji: ''
       },
       isUploading: false,
-      isDone: false
+      isDone: false,
+      message: 'heyyyyyyyyyyyyyy',
+      logs: [],
+      status: 'disconnected'
     }
   },
   methods: {
@@ -198,7 +203,7 @@ export default {
           }
 
           // filter out line that is not a proper chat message
-          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.') && !lines[i].includes('created group') && !lines[i].includes('created this group', 17) && !lines[i].includes(' added ') && !lines[i].includes(' left') && !lines[i].includes(" changed this group's icon") && !lines[i].includes('changed the subject from') && !lines[i].includes(' removed ') && !lines[i].includes("You're now an admin") && !lines[i].includes(' changed to ') && !lines[i].includes('changed the group description') && !lines[i].includes('This message was deleted') && !lines[i].includes('Contact card omitted') && !lines[i].includes('‎sticker omitted') && !lines[i].includes('‎GIF omitted') && !lines[i].includes('‎image omitted') && !lines[i].includes('video omitted') && !lines[i].includes('changed their phone number to a new number.')) {
+          if (lines[i].match(/([0-9]+\/[0-9]+\/[0-9]+)\d,/g) && !lines[i].includes('Messages to this group are now secured with end-to-end encryption. Tap for more info.') && !lines[i].includes('created group') && !lines[i].includes('created this group', 17) && !lines[i].includes(' added ') && !lines[i].includes(' left') && !lines[i].includes(" changed this group's icon") && !lines[i].includes('changed the subject from') && !lines[i].includes(' removed ') && !lines[i].includes("You're now an admin") && !lines[i].includes(' changed to ') && !lines[i].includes('changed the group description') && !lines[i].includes('This message was deleted') && !lines[i].includes('Contact card omitted') && !lines[i].includes('‎sticker omitted') && !lines[i].includes('‎GIF omitted') && !lines[i].includes('‎image omitted') && !lines[i].includes('‎<media') && !lines[i].includes('omitted>') && !lines[i].includes('video omitted') && !lines[i].includes('changed their phone number to a new number.')) {
             const regex = /\]|\[/g
             var filteredLine = lines[i].replace(regex, '')
 

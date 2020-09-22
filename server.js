@@ -8,10 +8,6 @@ const app = express()
 
 app.use(history())
 
-app.get('/analyze', function (req, res) {
-  res.send('Hello World!')
-})
-
 // eslint-disable-next-line no-path-concat
 app.use(serveStatic(__dirname + '/dist/spa'))
 app.listen(port, () => console.log(`App listening at http://localhost:${port}`))
