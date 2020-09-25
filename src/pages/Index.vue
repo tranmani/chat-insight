@@ -10,6 +10,9 @@
         <p class="intro">
           With just a few click away you will have those informations on your screen
         </p>
+        <p class="intro"><b>
+          Please set your phone localization to US before exporting conversation
+        </b></p>
         <h4 id="upload">Upload your exported txt file</h4>
         <div class="center" style="max-width: 300px">
           <breeding-rhombus-spinner
@@ -95,7 +98,7 @@
             </h6>
             <p>
               This website will analyze your uploaded data <br>
-              and store the numbers and essestial data in your browser <br>
+              and store the numbers and essestial data in your browser (not this website)<br>
               in order to construct graphs in the result page
             </p>
           </div>
